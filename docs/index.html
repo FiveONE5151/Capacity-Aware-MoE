@@ -337,7 +337,6 @@
       color: var(--muted);
     }
 
-    .problem-grid,
     .method-grid,
     .result-grid {
       display: grid;
@@ -345,8 +344,9 @@
     }
 
     .problem-grid {
-      grid-template-columns: 1fr 1.25fr;
-      align-items: center;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
     }
 
     .method-grid {
@@ -412,16 +412,9 @@
       padding: 22px;
     }
 
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 26px;
-    }
-
     .stat {
       border-top: 4px solid var(--cyan);
-      padding: 18px 0 0;
+      padding-top: 18px;
     }
 
     .stat:nth-child(2) {
@@ -434,39 +427,33 @@
 
     .stat strong {
       display: block;
-      font-size: 2.15rem;
-      line-height: 1.05;
+      margin-bottom: 10px;
+      font-size: 1.55rem;
+      line-height: 1.12;
     }
 
     .equation {
       display: grid;
-      gap: 10px;
-      max-width: 520px;
-      margin: 18px 0 8px;
+      gap: 12px;
+      max-width: 640px;
+      margin: 20px 0 8px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 18px;
+      padding: 18px 20px;
       background: #f7f9fa;
     }
 
-    .math-symbol {
+    .equation-formula {
       color: var(--ink);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 2.2rem;
-      line-height: 1.05;
-      letter-spacing: 0;
-      white-space: nowrap;
-    }
-
-    .overline {
-      text-decoration: overline;
-      text-decoration-thickness: 0.08em;
+      font-size: 1.55rem;
+      line-height: 1.2;
+      overflow-x: auto;
     }
 
     .equation-note {
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.93rem;
     }
 
     .wide-figure {
@@ -629,7 +616,6 @@
       .method-grid,
       .result-grid,
       .supporting-results,
-      .stat-row,
       .resource-grid {
         grid-template-columns: 1fr;
       }
@@ -702,9 +688,8 @@
         word-break: break-word;
       }
 
-      .math-symbol {
-        font-size: 1.7rem;
-        white-space: normal;
+      .equation-formula {
+        font-size: 1.22rem;
       }
 
       .actions,
@@ -720,6 +705,13 @@
       }
     }
   </style>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["\\(", "\\)"], ["$", "$"]] },
+      svg: { fontCache: "global" }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <header class="topbar">
@@ -790,33 +782,18 @@
           <p class="muted">Sparse MoE models activate only a subset of experts per token. Under expert parallelism, imbalanced routing can overload a few experts, and the full system waits for those stragglers to finish.</p>
         </div>
         <div class="problem-grid">
-          <div class="card pad">
-            <h3>The bottleneck is not average work.</h3>
-            <p class="muted">End-to-end latency is dominated by tail expert load. A small set of overloaded experts can erase the expected efficiency gains of sparse activation.</p>
-            <div class="stat-row">
-              <div class="stat">
-                <strong>Tail load</strong>
-                <span class="muted">dominates synchronization</span>
-              </div>
-              <div class="stat">
-                <strong>Fixed model</strong>
-                <span class="muted">inference-time control</span>
-              </div>
-              <div class="stat">
-                <strong>MoE-wide</strong>
-                <span class="muted">language and multimodal tests</span>
-              </div>
-            </div>
-          </div>
-          <div class="card figure-card">
-            <div class="media">
-              <img src="Figures/straggler_effect.svg" alt="Straggler effect in MoE inference">
-            </div>
-            <div class="caption">
-              <h3>Straggler effect in sparse MoE inference</h3>
-              <p class="muted">A few overloaded experts determine the global step time while other devices wait idle.</p>
-            </div>
-          </div>
+          <article class="card pad stat">
+            <strong>Tail load dominates synchronization.</strong>
+            <p class="muted">A small set of overloaded experts can determine the global step time while other devices wait idle.</p>
+          </article>
+          <article class="card pad stat">
+            <strong>The model stays fixed.</strong>
+            <p class="muted">Capacity-Aware Inference changes only test-time routing and capacity control, with no retraining.</p>
+          </article>
+          <article class="card pad stat">
+            <strong>The behavior is MoE-wide.</strong>
+            <p class="muted">The same straggler pattern appears across language and multimodal sparse MoE settings.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -825,10 +802,10 @@
       <div class="wrap">
         <div class="section-head">
           <div class="kicker">Method</div>
-          <h2>Capacity bounds make overload explicit.</h2>
+          <h2>Capacity Bounds for Expert Load</h2>
           <p class="muted">Capacity-Aware Inference regulates expert load through a capacity factor and then either drops overflow tokens or redirects candidates to underused local experts before dropping.</p>
           <div class="equation" aria-label="Expert capacity equals capacity factor times mean expert load">
-            <div class="math-symbol">C = &gamma;<span class="overline">N</span>, &nbsp; <span class="overline">N</span> = Tk / E</div>
+            <div class="equation-formula">\( C = \gamma \bar{N}, \quad \bar{N} = \frac{Tk}{E} \)</div>
             <p class="equation-note"><strong>C</strong> is the per-expert capacity, <strong>&gamma;</strong> is the capacity factor, <strong>T</strong> is the token count, <strong>k</strong> is top-k routing, and <strong>E</strong> is the number of experts.</p>
           </div>
         </div>
