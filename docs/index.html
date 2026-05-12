@@ -99,7 +99,7 @@
 
     .hero {
       position: relative;
-      min-height: 680px;
+      min-height: 700px;
       display: grid;
       align-items: center;
       overflow: hidden;
@@ -107,22 +107,59 @@
       background: #f5f7f9;
     }
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 0 34%;
-      opacity: 0.24;
-      background-image: url("Figures/straggler_effect.svg");
-      background-position: center right;
-      background-size: min(900px, 70vw) auto;
-      background-repeat: no-repeat;
-    }
-
     .hero-inner {
       position: relative;
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
       padding: 76px 0 70px;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .hero-visual {
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .hero-figure {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-figure img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+    }
+
+    .hero-tags {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .hero-tag {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.76);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 720;
+      text-align: center;
     }
 
     .eyebrow {
@@ -153,10 +190,10 @@
     }
 
     h1 {
-      max-width: 850px;
+      max-width: 720px;
       margin-bottom: 20px;
-      font-size: 5.2rem;
-      line-height: 0.98;
+      font-size: 4.7rem;
+      line-height: 1;
       letter-spacing: 0;
       overflow-wrap: anywhere;
     }
@@ -213,6 +250,42 @@
       background: #096f55;
       border-color: #096f55;
       color: #ffffff;
+    }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 820px;
+      margin-top: 30px;
+    }
+
+    .metric {
+      border-left: 4px solid var(--green);
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .metric:nth-child(2) {
+      border-color: var(--red);
+    }
+
+    .metric:nth-child(3) {
+      border-color: var(--yellow);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.55rem;
+      line-height: 1.05;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      overflow-wrap: anywhere;
     }
 
     .section {
@@ -455,6 +528,27 @@
       margin-top: 24px;
     }
 
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .takeaway {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: #ffffff;
+    }
+
+    .takeaway strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.25rem;
+      line-height: 1.15;
+    }
+
     .resource-grid {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
@@ -497,17 +591,22 @@
       }
 
       .hero {
-        min-height: 620px;
-      }
-
-      .hero::before {
-        inset: 32% 0 0;
-        background-position: bottom center;
-        background-size: 760px auto;
+        min-height: auto;
       }
 
       .hero-inner {
-        padding: 56px 0 220px;
+        padding: 56px 0 58px;
+      }
+
+      .hero-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .hero-tags,
+      .metric-strip,
+      .takeaway-grid {
+        grid-template-columns: 1fr;
       }
 
       h1 {
@@ -553,8 +652,8 @@
       .nav,
       .wrap,
       .hero-inner {
-        width: calc(100vw - 24px);
-        max-width: calc(100vw - 24px);
+        width: calc(100% - 24px);
+        max-width: calc(100% - 24px);
       }
 
       h1 {
@@ -572,6 +671,26 @@
 
       .lead {
         font-size: 1rem;
+        max-width: min(100%, calc(100vw - 48px), 342px);
+      }
+
+      .hero-copy,
+      .hero-visual,
+      .hero-figure,
+      .metric {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .hero-figure,
+      .metric,
+      .takeaway {
+        width: min(100%, calc(100vw - 48px), 342px);
+      }
+
+      .metric span,
+      .takeaway p {
+        max-width: min(100%, calc(100vw - 72px), 318px);
       }
 
       h1,
@@ -618,18 +737,47 @@
   <main>
     <section class="hero" aria-labelledby="title">
       <div class="hero-inner">
-        <div class="eyebrow">ICLR 2026</div>
-        <h1 id="title"><span class="title-part">Capacity-Aware</span> <span class="title-part">Inference for</span> <span class="title-part">Mixture-of-Experts</span> <span class="title-part">Models</span></h1>
-        <p class="lead">Mitigating the straggler effect in sparse MoE inference by bounding overloaded experts at inference time, with no retraining.</p>
-        <ul class="authors" aria-label="Authors">
-          <li><a href="https://shwai-he.github.io/">Shwai He</a></li>
-          <li><a href="https://withinmiaov.github.io/">Weilin Cai</a></li>
-          <li><a href="https://jyhuang91.github.io/">Jiayi Huang</a></li>
-          <li><a href="https://www.ang-li.com/">Ang Li</a></li>
-        </ul>
-        <div class="actions">
-          <a class="button primary" href="https://arxiv.org/abs/2503.05066">Read the paper</a>
-          <a class="button" href="https://github.com/CASE-Lab-UMD/Capacity-Aware-MoE">View code</a>
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <div class="eyebrow">ICLR 2026</div>
+            <h1 id="title"><span class="title-part">Capacity-Aware</span> <span class="title-part">Inference</span></h1>
+            <p class="lead">Mitigating stragglers in Mixture-of-Experts inference by placing explicit capacity bounds on overloaded experts, without retraining the model.</p>
+            <ul class="authors" aria-label="Authors">
+              <li><a href="https://shwai-he.github.io/">Shwai He</a></li>
+              <li><a href="https://withinmiaov.github.io/">Weilin Cai</a></li>
+              <li><a href="https://jyhuang91.github.io/">Jiayi Huang</a></li>
+              <li><a href="https://www.ang-li.com/">Ang Li</a></li>
+            </ul>
+            <div class="actions">
+              <a class="button primary" href="https://arxiv.org/abs/2503.05066">Read the paper</a>
+              <a class="button" href="https://github.com/CASE-Lab-UMD/Capacity-Aware-MoE">View code</a>
+              <a class="button" href="#resources">Run evaluation</a>
+            </div>
+            <div class="metric-strip" aria-label="Reported headline results">
+              <div class="metric">
+                <strong>30%</strong>
+                <span>MoE-layer speedup on OLMoE with 0.9% degradation</span>
+              </div>
+              <div class="metric">
+                <strong>1.85&times;</strong>
+                <span>end-to-end Mixtral speedup with Expanded Drop</span>
+              </div>
+              <div class="metric">
+                <strong>+0.2%</strong>
+                <span>average performance on Mixtral with Expanded Drop</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual" aria-label="Straggler effect overview">
+            <div class="hero-figure">
+              <img src="Figures/straggler_effect.svg" alt="Straggler effect in MoE inference">
+            </div>
+            <div class="hero-tags">
+              <div class="hero-tag">Expert parallelism</div>
+              <div class="hero-tag">Inference-time control</div>
+              <div class="hero-tag">No retraining</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -713,6 +861,20 @@
           <div class="kicker">Results</div>
           <h2>Expanded Drop preserves quality while reducing stragglers.</h2>
           <p class="muted">The reported experiments compare baseline routing, Token Drop, and Expanded Drop across language and multimodal MoE models.</p>
+        </div>
+        <div class="takeaway-grid" aria-label="Result summary">
+          <article class="takeaway">
+            <strong>Token Drop bounds the slowest experts.</strong>
+            <p class="muted">A capacity factor limits overloaded experts directly, reducing the synchronization tail.</p>
+          </article>
+          <article class="takeaway">
+            <strong>Expanded Drop uses spare local capacity.</strong>
+            <p class="muted">Overflow tokens can consider additional local experts before being dropped.</p>
+          </article>
+          <article class="takeaway">
+            <strong>The idea transfers beyond language-only MoE.</strong>
+            <p class="muted">The same inference-time control applies to multimodal MoE evaluation.</p>
+          </article>
         </div>
         <div class="wide-figure">
           <img src="Figures/main_results.png" alt="Main results comparing baseline, Token Drop, and Expanded Drop">
