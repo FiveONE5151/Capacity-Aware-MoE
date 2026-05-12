@@ -531,7 +531,7 @@
     .capacity-gallery {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
+      gap: 18px;
     }
 
     .capacity-card {
@@ -545,19 +545,19 @@
 
     .capacity-card .media {
       min-height: 0;
-      padding: 18px;
+      padding: 14px;
       background: #f4f6f8;
       border-bottom: 1px solid var(--line);
     }
 
     .capacity-card .media img {
       width: 100%;
-      max-height: 700px;
+      max-height: 430px;
       object-fit: contain;
     }
 
     .capacity-card .caption {
-      padding: 16px 18px;
+      padding: 14px 16px;
     }
 
     .capacity-card h3 {
@@ -919,7 +919,7 @@
         </div>
         <div class="result-subhead">
           <h3>Expert-wise capacity profiles</h3>
-          <p class="muted">Layer-wise expert-load profiles show that the imbalance is not isolated to a single model family.</p>
+          <p class="muted">Representative expert-load profiles show the tail-heavy routing patterns that motivate capacity-aware inference.</p>
         </div>
         <div class="capacity-gallery" aria-label="Expert-wise capacity profiles across models">
           <article class="capacity-card">
@@ -928,22 +928,6 @@
             </div>
             <div class="caption">
               <h3>OLMoE-Instruct</h3>
-            </div>
-          </article>
-          <article class="capacity-card">
-            <div class="media">
-              <img src="Figures/Deepseek-V2-Chat_Capacity.png" alt="Layer-wise expert load in DeepSeek-V2-Lite">
-            </div>
-            <div class="caption">
-              <h3>DeepSeek-V2-Lite</h3>
-            </div>
-          </article>
-          <article class="capacity-card">
-            <div class="media">
-              <img src="Figures/Qwen-MoE-Chat_Capacity.png" alt="Layer-wise expert load in Qwen1.5-MoE-Chat">
-            </div>
-            <div class="caption">
-              <h3>Qwen1.5-MoE-Chat</h3>
             </div>
           </article>
           <article class="capacity-card">
