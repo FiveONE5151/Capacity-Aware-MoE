@@ -480,12 +480,24 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 22px;
       margin-top: 28px;
+      align-items: start;
+    }
+
+    .result-subhead {
+      max-width: 760px;
+      margin: 36px 0 16px;
+    }
+
+    .result-subhead h3 {
+      margin-bottom: 6px;
+      font-size: 1.45rem;
     }
 
     .result-feature {
       display: grid;
       grid-template-rows: auto 1fr;
       align-items: stretch;
+      min-height: 0;
     }
 
     .result-feature .media {
@@ -509,6 +521,47 @@
 
     .full-row .media img {
       max-height: 300px;
+    }
+
+    .breakdown-card .media img {
+      max-height: 260px;
+    }
+
+    .capacity-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .capacity-card {
+      display: grid;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .capacity-card .media {
+      min-height: 0;
+      padding: 12px;
+      background: #f4f6f8;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .capacity-card .media img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+    }
+
+    .capacity-card .caption {
+      padding: 14px 16px;
+    }
+
+    .capacity-card h3 {
+      margin: 0;
+      font-size: 1rem;
     }
 
     .control-strip {
@@ -616,6 +669,7 @@
       .method-grid,
       .result-grid,
       .supporting-results,
+      .capacity-gallery,
       .resource-grid {
         grid-template-columns: 1fr;
       }
@@ -852,6 +906,48 @@
         <div class="wide-figure">
           <img src="Figures/main_results.png" alt="Main results comparing baseline, Token Drop, and Expanded Drop">
         </div>
+        <div class="result-subhead">
+          <h3>Expert-wise capacity profiles</h3>
+          <p class="muted">Layer-wise expert-load profiles show that the imbalance is not isolated to a single model family.</p>
+        </div>
+        <div class="capacity-gallery" aria-label="Expert-wise capacity profiles across models">
+          <article class="capacity-card">
+            <div class="media">
+              <img src="Figures/OLMoE-Instruct_Capacity.png" alt="Layer-wise expert load in OLMoE-Instruct">
+            </div>
+            <div class="caption">
+              <h3>OLMoE-Instruct</h3>
+            </div>
+          </article>
+          <article class="capacity-card">
+            <div class="media">
+              <img src="Figures/Deepseek-V2-Chat_Capacity.png" alt="Layer-wise expert load in DeepSeek-V2-Lite">
+            </div>
+            <div class="caption">
+              <h3>DeepSeek-V2-Lite</h3>
+            </div>
+          </article>
+          <article class="capacity-card">
+            <div class="media">
+              <img src="Figures/Qwen-MoE-Chat_Capacity.png" alt="Layer-wise expert load in Qwen1.5-MoE-Chat">
+            </div>
+            <div class="caption">
+              <h3>Qwen1.5-MoE-Chat</h3>
+            </div>
+          </article>
+          <article class="capacity-card">
+            <div class="media">
+              <img src="Figures/Mixtral-Instruct_Capacity.png" alt="Layer-wise expert load in Mixtral-8x7B-Instruct">
+            </div>
+            <div class="caption">
+              <h3>Mixtral-8x7B-Instruct</h3>
+            </div>
+          </article>
+        </div>
+        <div class="result-subhead">
+          <h3>Efficiency evidence</h3>
+          <p class="muted">Speedup and latency breakdowns connect the load-balancing mechanism to wall-clock inference gains.</p>
+        </div>
         <div class="supporting-results">
           <article class="card result-feature">
             <div class="media">
@@ -869,6 +965,15 @@
             <div class="caption">
               <h3>End-to-end speedup</h3>
               <p class="muted">Capacity-aware inference reduces the wall-clock latency impact of overloaded experts.</p>
+            </div>
+          </article>
+          <article class="card result-feature full-row breakdown-card">
+            <div class="media">
+              <img src="Figures/latency_breakdown.png" alt="Latency breakdown on OLMoE">
+            </div>
+            <div class="caption">
+              <h3>Latency breakdown</h3>
+              <p class="muted">Capacity-aware inference reduces expert computation, permutation, and communication time while keeping gate processing comparable.</p>
             </div>
           </article>
           <article class="card result-feature full-row">
