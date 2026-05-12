@@ -560,13 +560,13 @@
     .capacity-gallery {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      max-width: 1040px;
-      margin-right: auto;
+      gap: 16px;
+      width: 100%;
     }
 
     .capacity-card {
       display: grid;
+      grid-template-rows: auto auto;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #ffffff;
@@ -576,7 +576,7 @@
 
     .capacity-card .media {
       min-height: 0;
-      padding: 8px;
+      padding: 6px;
       background: #f4f6f8;
       border-bottom: 1px solid var(--line);
     }
