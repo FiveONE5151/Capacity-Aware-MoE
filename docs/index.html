@@ -330,7 +330,7 @@
     }
 
     .section-head {
-      max-width: 760px;
+      max-width: 920px;
       margin-bottom: 34px;
     }
 
@@ -514,7 +514,7 @@
     }
 
     .result-subhead {
-      max-width: 760px;
+      max-width: 980px;
       margin: 36px 0 16px;
     }
 
@@ -872,7 +872,7 @@
         <div class="section-head">
           <div class="kicker">Problem</div>
           <h2>Expert parallelism waits for the slowest experts.</h2>
-          <p class="muted">Sparse MoE models activate only a subset of experts per token. Under expert parallelism, imbalanced routing can overload a few experts, and the full system waits for those stragglers to finish.</p>
+          <p class="muted">Sparse MoE models activate only a subset of experts per token. Under expert parallelism, imbalanced routing overloads a few experts, and every worker waits for those stragglers.</p>
         </div>
         <div class="problem-grid">
           <article class="card pad stat">
@@ -896,7 +896,7 @@
         <div class="section-head">
           <div class="kicker">Method</div>
           <h2>Capacity Bounds for Expert Load</h2>
-          <p class="muted">Capacity-Aware Inference regulates expert load through a capacity factor and then either drops overflow tokens or redirects candidates to underused local experts before dropping.</p>
+          <p class="muted">Capacity-Aware Inference bounds expert load with a capacity factor, then either drops overflow tokens or redirects candidates to underused local experts.</p>
           <div class="equation" aria-label="Expert capacity equals capacity factor times mean expert load">
             <div class="equation-formula">\( C = \gamma \bar{N}, \quad \bar{N} = \frac{Tk}{E} \)</div>
             <p class="equation-note">\(C\) is the per-expert capacity, \(\gamma\) is the capacity factor, \(T\) is the token count, \(k\) is top-k routing, and \(E\) is the number of experts.</p>
@@ -929,8 +929,8 @@
       <div class="wrap">
         <div class="section-head">
           <div class="kicker">Results</div>
-          <h2>Expanded Drop preserves quality while reducing stragglers.</h2>
-          <p class="muted">The reported experiments compare baseline routing, Token Drop, and Expanded Drop across language and multimodal MoE models.</p>
+          <h2>Expanded Drop reduces stragglers without hurting quality.</h2>
+          <p class="muted">Experiments compare baseline routing, Token Drop, and Expanded Drop across language and multimodal MoE models.</p>
         </div>
         <div class="takeaway-grid" aria-label="Result summary">
           <article class="takeaway">
@@ -951,7 +951,7 @@
         </div>
         <div class="result-subhead">
           <h3>Expert-wise capacity profiles</h3>
-          <p class="muted">Representative expert-load profiles show the tail-heavy routing patterns that motivate capacity-aware inference.</p>
+          <p class="muted">Representative profiles reveal the tail-heavy routing behind capacity-aware inference.</p>
         </div>
         <div class="capacity-gallery" aria-label="Expert-wise capacity profiles across models">
           <article class="capacity-card">
@@ -981,7 +981,7 @@
         </div>
         <div class="result-subhead">
           <h3>Efficiency evidence</h3>
-          <p class="muted">Speedup and latency breakdowns connect the load-balancing mechanism to wall-clock inference gains.</p>
+          <p class="muted">Speedup and latency breakdowns connect load balancing to wall-clock gains.</p>
         </div>
         <div class="supporting-results">
           <article class="card result-feature">
@@ -1029,7 +1029,7 @@
         <div class="section-head">
           <div class="kicker">Resources</div>
           <h2>Run the evaluation.</h2>
-          <p class="muted">The repository includes modified Hugging Face MoE modeling files, language evaluation scripts, and a multimodal evaluation pipeline through VLMEvalKit.</p>
+          <p class="muted">The repository includes MoE modeling patches, language evaluation scripts, and a VLMEvalKit multimodal pipeline.</p>
         </div>
         <div class="resource-grid">
           <pre><code>conda create -n capacity-moe python=3.10 -y
