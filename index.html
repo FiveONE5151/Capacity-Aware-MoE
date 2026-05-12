@@ -876,16 +876,16 @@
         </div>
         <div class="problem-grid">
           <article class="card pad stat">
-            <strong>Tail load dominates synchronization.</strong>
-            <p class="muted">A small set of overloaded experts can determine the global step time while other devices wait idle.</p>
+            <strong>Routing creates tail load.</strong>
+            <p class="muted">A few experts receive far more tokens than the average, even when most experts remain lightly loaded.</p>
           </article>
           <article class="card pad stat">
-            <strong>The model stays fixed.</strong>
-            <p class="muted">Capacity-Aware Inference changes only test-time routing and capacity control, with no retraining.</p>
+            <strong>Parallelism amplifies the tail.</strong>
+            <p class="muted">Expert-parallel workers synchronize at the slowest experts, so overloaded experts set the global step time.</p>
           </article>
           <article class="card pad stat">
-            <strong>The behavior is MoE-wide.</strong>
-            <p class="muted">The same straggler pattern appears across language and multimodal sparse MoE settings.</p>
+            <strong>The pattern is MoE-wide.</strong>
+            <p class="muted">The same imbalance appears across language and multimodal sparse MoE settings, making inference-time control useful beyond one model.</p>
           </article>
         </div>
       </div>
