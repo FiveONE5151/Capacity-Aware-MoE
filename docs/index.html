@@ -373,11 +373,11 @@
 
     .figure-card {
       display: grid;
-      grid-template-rows: minmax(230px, auto) 1fr;
+      grid-template-rows: auto 1fr;
     }
 
     .method-card {
-      grid-template-rows: minmax(310px, auto) 1fr;
+      grid-template-rows: auto 1fr;
     }
 
     .media {
@@ -394,8 +394,8 @@
     }
 
     .method-card .media {
-      min-height: 310px;
-      padding: 30px;
+      min-height: 0;
+      padding: 24px 30px;
     }
 
     .media img {
@@ -405,7 +405,7 @@
 
     .method-card .media img {
       width: 100%;
-      max-height: 300px;
+      max-height: 220px;
     }
 
     .caption {
@@ -484,19 +484,19 @@
 
     .result-feature {
       display: grid;
-      grid-template-rows: minmax(250px, auto) 1fr;
+      grid-template-rows: auto 1fr;
       align-items: stretch;
     }
 
     .result-feature .media {
-      min-height: 250px;
+      min-height: 0;
       border-bottom: 1px solid var(--line);
-      padding: 22px;
+      padding: 16px 20px;
     }
 
     .result-feature .media img {
       width: 100%;
-      max-height: 300px;
+      max-height: 210px;
     }
 
     .full-row {
@@ -504,11 +504,11 @@
     }
 
     .full-row .media {
-      min-height: 300px;
+      min-height: 0;
     }
 
     .full-row .media img {
-      max-height: 340px;
+      max-height: 300px;
     }
 
     .control-strip {
@@ -626,10 +626,6 @@
 
       .figure-card {
         grid-template-rows: auto auto;
-      }
-
-      .method-card .media {
-        min-height: 240px;
       }
 
     }
