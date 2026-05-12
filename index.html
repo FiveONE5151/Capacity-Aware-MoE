@@ -78,7 +78,7 @@
       flex-wrap: wrap;
       gap: 8px;
       justify-content: flex-end;
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: var(--muted);
     }
 
@@ -171,7 +171,7 @@
       font-weight: 800;
       letter-spacing: 0;
       text-transform: uppercase;
-      font-size: 0.95rem;
+      font-size: 1.05rem;
     }
 
     .eyebrow::before {
@@ -339,7 +339,7 @@
       color: var(--green);
       font-weight: 850;
       text-transform: uppercase;
-      font-size: 0.9rem;
+      font-size: 1rem;
       letter-spacing: 0;
     }
 
@@ -871,7 +871,7 @@
       <div class="wrap">
         <div class="section-head">
           <div class="kicker">Problem</div>
-          <h2>Expert parallelism waits for the slowest experts.</h2>
+          <h2>Expert parallelism waits for stragglers.</h2>
           <p class="muted">Sparse MoE models activate only a subset of experts per token. Under expert parallelism, imbalanced routing overloads a few experts, and every worker waits for those stragglers.</p>
         </div>
         <div class="problem-grid">
