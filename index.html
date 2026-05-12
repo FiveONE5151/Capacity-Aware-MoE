@@ -534,9 +534,9 @@
 
     .capacity-gallery {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      max-width: 760px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 1040px;
       margin-right: auto;
     }
 
@@ -551,7 +551,7 @@
 
     .capacity-card .media {
       min-height: 0;
-      padding: 10px;
+      padding: 8px;
       background: #f4f6f8;
       border-bottom: 1px solid var(--line);
     }
@@ -563,12 +563,12 @@
     }
 
     .capacity-card .caption {
-      padding: 14px 16px;
+      padding: 12px 14px;
     }
 
     .capacity-card h3 {
       margin: 0;
-      font-size: 1.12rem;
+      font-size: 1rem;
     }
 
     .takeaway-grid {
@@ -926,7 +926,7 @@
         <div class="capacity-gallery" aria-label="Expert-wise capacity profiles across models">
           <article class="capacity-card">
             <div class="media">
-              <img src="docs/Figures/OLMoE-Instruct_Capacity.png" alt="Layer-wise expert load in OLMoE-Instruct">
+              <img src="docs/Figures/OLMoE-Instruct_Capacity.svg" alt="Layer-wise expert load in OLMoE-Instruct">
             </div>
             <div class="caption">
               <h3>OLMoE-Instruct</h3>
@@ -934,7 +934,15 @@
           </article>
           <article class="capacity-card">
             <div class="media">
-              <img src="docs/Figures/Mixtral-Instruct_Capacity.png" alt="Layer-wise expert load in Mixtral-8x7B-Instruct">
+              <img src="docs/Figures/Deepseek-V2-Chat_Capacity.svg" alt="Layer-wise expert load in DeepSeek-V2-Lite">
+            </div>
+            <div class="caption">
+              <h3>DeepSeek-V2-Lite</h3>
+            </div>
+          </article>
+          <article class="capacity-card">
+            <div class="media">
+              <img src="docs/Figures/Mixtral-Instruct_Capacity.svg" alt="Layer-wise expert load in Mixtral-8x7B-Instruct">
             </div>
             <div class="caption">
               <h3>Mixtral-8x7B-Instruct</h3>
