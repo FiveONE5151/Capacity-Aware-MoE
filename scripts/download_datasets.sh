@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # ============================================================
 # Capacity-Aware MoE — Dataset Download Script
-# Downloads all 9 evaluation datasets for DeepSeek-V2-Lite-Chat
+# Downloads evaluation datasets for DeepSeek-V2-Lite-Chat
+# Usage: ./download_datasets.sh [target_directory]
 # ============================================================
 set -euo pipefail
 
@@ -33,38 +34,23 @@ download openbookqa
 # ── 2. piqa ───────────────────────────────────────────────────
 download piqa
 
-# ── 3 & 5. super_glue (rte + boolq) ───────────────────────────
-echo "[DOWNLOAD] super_glue (rte + boolq) ..."
-huggingface-cli download super_glue --repo-type dataset \
-    --include "rte/*" "boolq/*" \
-    --local-dir "${DATASET_DIR}/super_glue"
-echo "[OK] super_glue"
-echo ""
+# ── 3. super_glue ─────────────────────────────────────────────
+download super_glue
 
 # ── 4. winogrande ─────────────────────────────────────────────
 download winogrande
 
-# ── 6. arc_challenge ───────────────────────────────────────────
-echo "[DOWNLOAD] allenai/ai2_arc (ARC-Challenge) ..."
-huggingface-cli download allenai/ai2_arc --repo-type dataset \
-    --include "ARC-Challenge/*" \
-    --local-dir "${DATASET_DIR}/allenai/ai2_arc"
-echo "[OK] allenai/ai2_arc"
-echo ""
+# ── 5. allenai/ai2_arc ────────────────────────────────────────
+download allenai/ai2_arc
 
-# ── 7. hellaswag ──────────────────────────────────────────────
+# ── 6. hellaswag ──────────────────────────────────────────────
 download hellaswag
 
-# ── 8. mmlu (57 subjects) ──────────────────────────────────────
+# ── 7. mmlu (57 subjects) ──────────────────────────────────────
 download hails/mmlu_no_train
 
-# ── 9. gsm8k ──────────────────────────────────────────────────
-echo "[DOWNLOAD] gsm8k (main) ..."
-huggingface-cli download gsm8k --repo-type dataset \
-    --include "main/*" \
-    --local-dir "${DATASET_DIR}/gsm8k"
-echo "[OK] gsm8k"
-echo ""
+# ── 8. gsm8k ──────────────────────────────────────────────────
+download gsm8k
 
 # ── Summary ───────────────────────────────────────────────────
 echo "========================================"

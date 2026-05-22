@@ -18,9 +18,27 @@ STRATEGIES=(score random first last overselect)
 # ── 容量因子列表 ──────────────────────────────────────────────────────────────
 CAPACITY_FACTORS=(1.0 0.8 0.6 0.5)
 
+# ── 任务与 few-shot 的默认映射 ───────────────────────────────────────────────
+declare -A TASK_FEWSHOT_MAP=(
+    [openbookqa]=0
+    [piqa]=0
+    [rte]=0
+    [winogrande]=5
+    [boolq]=0
+    [arc_challenge]=25
+    [hellaswag]=10
+    [mmlu]=5
+    [gsm8k]=5
+    [ifeval]=0
+)
+DEFAULT_FEWSHOT=0
+
 # ── 9 个评测任务（与 eval_capacity.sh 一致） ─────────────────────────────────
 TASKS=(openbookqa piqa rte winogrande boolq arc_challenge hellaswag mmlu gsm8k ifeval)
-FEWSHOTS=(0 0 0 5 0 25 10 5 5 0)
+FEWSHOTS=()
+for t in "${TASKS[@]}"; do
+    FEWSHOTS+=("${TASK_FEWSHOT_MAP[$t]}")
+done
 
 # ── 环境变量导出 ─────────────────────────────────────────────────────────────
 export CUDA_VISIBLE_DEVICES="${CUDA_DEVICES}"
@@ -65,7 +83,16 @@ while [[ $# -gt 0 ]]; do
         -g|--gpus)       CUDA_DEVICES="$2"; shift 2 ;;
         -s|--strategy)   IFS=',' read -ra STRATEGIES <<< "$2"; shift 2 ;;
         -c|--capacity)   IFS=',' read -ra CAPACITY_FACTORS <<< "$2"; shift 2 ;;
-        -t|--task)       IFS=',' read -ra TASKS <<< "$2"; FEWSHOTS=(); shift 2 ;;
+        -t|--task)
+    TASKS=()
+    FEWSHOTS=()
+    IFS=',' read -ra INPUT_TASKS <<< "$2"
+    for t in "${INPUT_TASKS[@]}"; do
+        TASKS+=("$t")
+        FEWSHOTS+=("${TASK_FEWSHOT_MAP[$t]:-$DEFAULT_FEWSHOT}")
+    done
+    shift 2
+    ;;
         -h|--help)       usage ;;
         *) echo "Unknown option: $1"; usage ;;
     esac

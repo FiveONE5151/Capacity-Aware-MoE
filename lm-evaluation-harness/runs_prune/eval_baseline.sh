@@ -6,7 +6,10 @@ export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 AUTOAWQ="${AUTOAWQ:-False}"
 PRETRAINED="${PRETRAINED:-./models/OLMoE-1B-7B-0924}"
 BATCH_SIZE="${BATCH_SIZE:-auto}"
-export NLTK_DATA=/home/CONNECT/ywu753/data/workSpace/Capacity-Aware-MoE/nltk
+export HF_EVALUATE_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export NLTK_DATA=~/data/workSpace/dataset/nltk_data/nltk_data
 if [[ ! -d "${PRETRAINED}" ]]; then
   echo "Model path does not exist: ${PRETRAINED}" >&2
   exit 1
