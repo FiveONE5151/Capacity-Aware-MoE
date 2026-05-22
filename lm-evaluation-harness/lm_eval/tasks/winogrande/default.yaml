@@ -1,5 +1,5 @@
 task: winogrande
-dataset_path: winogrande
+dataset_path: /home/CONNECT/ywu753/data/workSpace/dataset/winogrande
 dataset_name: winogrande_xl
 output_type: multiple_choice
 training_split: train

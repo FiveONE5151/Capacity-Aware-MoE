@@ -1,7 +1,7 @@
 group:
   - chain_of_thought
 task: gsm8k_cot
-dataset_path: gsm8k
+dataset_path: /home/CONNECT/ywu753/data/workSpace/dataset/gsm8k
 dataset_name: main
 output_type: generate_until
 test_split: test

@@ -1,8 +1,8 @@
 group:
   - math_word_problems
 task: gsm8k
-dataset_path: gsm8k
-dataset_name: main
+dataset_path: /home/CONNECT/ywu753/data/workSpace/dataset/gsm8k
+dataset_name: default
 output_type: generate_until
 training_split: train
 fewshot_split: train

@@ -1,5 +1,5 @@
 task: openbookqa
-dataset_path: openbookqa
+dataset_path: /home/CONNECT/ywu753/data/workSpace/dataset/openbookqa
 dataset_name: main
 output_type: multiple_choice
 training_split: train

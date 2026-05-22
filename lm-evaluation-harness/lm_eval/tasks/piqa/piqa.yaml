@@ -1,5 +1,5 @@
 task: piqa
-dataset_path: piqa
+dataset_path: /home/CONNECT/ywu753/data/workSpace/dataset/piqa
 dataset_name: null
 output_type: multiple_choice
 training_split: train

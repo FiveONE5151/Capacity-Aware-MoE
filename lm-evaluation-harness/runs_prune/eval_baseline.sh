@@ -6,7 +6,7 @@ export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 AUTOAWQ="${AUTOAWQ:-False}"
 PRETRAINED="${PRETRAINED:-./models/OLMoE-1B-7B-0924}"
 BATCH_SIZE="${BATCH_SIZE:-auto}"
-
+export NLTK_DATA=/home/CONNECT/ywu753/data/workSpace/Capacity-Aware-MoE/nltk
 if [[ ! -d "${PRETRAINED}" ]]; then
   echo "Model path does not exist: ${PRETRAINED}" >&2
   exit 1
@@ -29,7 +29,7 @@ run_task() {
   local task_json="${OUTPUT_PATH}/${task}.json"
   local task_log="${OUTPUT_PATH}/${task}.out"
 
-  nohup lm_eval \
+  lm_eval \
     --model hf \
     --model_args "pretrained=${PRETRAINED},parallelize=True,trust_remote_code=True,dtype=bfloat16,autoawq=${AUTOAWQ}" \
     --tasks "$task" \
