@@ -1,5 +1,6 @@
 import random
 import re
+import string
 
 import datasets
 
@@ -37,3 +38,24 @@ def process_docs(dataset: datasets.Dataset) -> datasets.Dataset:
         return out_doc
 
     return dataset.map(_process_doc)
+
+
+def process_results(doc, results):
+    """
+    Custom process_results to handle the mismatch between:
+    - doc_to_target: "The answer is (X)." for fewshot display
+    - filtered result: "(X)" extracted by regex filter
+
+    We compare the extracted answer directly with doc["answer"].
+    """
+    gold = doc["answer"]  # e.g. "(C)"
+    result = results[0]  # filtered response from regex filter
+
+    # Normalize both strings: lowercase and remove punctuation
+    def normalize(s):
+        s = s.lower()
+        s = s.translate(str.maketrans('', '', string.punctuation))
+        return s.strip()
+
+    score = 1.0 if normalize(result) == normalize(gold) else 0.0
+    return {"exact_match": score}

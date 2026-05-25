@@ -11,6 +11,8 @@ MODEL_PATH="${MODEL_PATH:-${HOME}/data/workSpace/models/DeepSeek-V2-Lite-Chat}"
 OUTPUT_BASE="${OUTPUT_BASE:-${MODEL_PATH}}"
 BATCH_SIZE="${BATCH_SIZE:-auto}"
 CUDA_DEVICES="${CUDA_DEVICES:-0}"
+DEBUG="${DEBUG:-0}"
+DEBUG_LIMIT="${DEBUG_LIMIT:-16}"
 
 # ── 策略列表 ──────────────────────────────────────────────────────────────────
 STRATEGIES=(score random first last overselect)
@@ -30,11 +32,12 @@ declare -A TASK_FEWSHOT_MAP=(
     [mmlu]=5
     [gsm8k]=5
     [ifeval]=0
+    [gpqa_diamond_cot_n_shot]=5
 )
 DEFAULT_FEWSHOT=0
 
 # ── 9 个评测任务（与 eval_capacity.sh 一致） ─────────────────────────────────
-TASKS=(openbookqa piqa rte winogrande boolq arc_challenge hellaswag mmlu gsm8k ifeval)
+TASKS=(openbookqa piqa rte winogrande boolq arc_challenge hellaswag mmlu gsm8k ifeval gpqa_diamond_cot_n_shot)
 FEWSHOTS=()
 for t in "${TASKS[@]}"; do
     FEWSHOTS+=("${TASK_FEWSHOT_MAP[$t]}")
@@ -59,6 +62,8 @@ Options:
   -s, --strategy STR   仅测试指定策略，逗号分隔 (default: 全部)
   -c, --capacity CAP   仅测试指定容量因子，逗号分隔 (default: 全部)
   -t, --task TASK      仅测试指定任务，逗号分隔 (default: 全部)
+  -d, --debug [N]      启用调试模式: --log_samples + --limit N (default: 16)
+                       不传 N 时默认 16 条; 传 0 则仅 --log_samples 不限条数
   -h, --help           显示帮助
 
 Examples:
@@ -93,6 +98,14 @@ while [[ $# -gt 0 ]]; do
     done
     shift 2
     ;;
+        -d|--debug)
+    DEBUG=1
+    # 如果下一个参数是数字则作为 limit，否则使用默认值
+    if [[ $# -gt 1 && "$2" =~ ^[0-9]+$ ]]; then
+        DEBUG_LIMIT="$2"; shift
+    fi
+    shift
+    ;;
         -h|--help)       usage ;;
         *) echo "Unknown option: $1"; usage ;;
     esac
@@ -114,6 +127,15 @@ fi
 
 cd "${EVAL_DIR}"
 
+# ── 调试参数拼接 ────────────────────────────────────────────────────────────
+DEBUG_ARGS=""
+if [[ "${DEBUG}" -eq 1 ]]; then
+    DEBUG_ARGS="--log_samples"
+    if [[ "${DEBUG_LIMIT}" -gt 0 ]]; then
+        DEBUG_ARGS="${DEBUG_ARGS} --limit ${DEBUG_LIMIT}"
+    fi
+fi
+
 # ── 打印配置 ─────────────────────────────────────────────────────────────────
 echo "========================================================="
 echo " Capacity-Aware MoE — Accuracy Test"
@@ -124,6 +146,9 @@ echo " GPUs: ${CUDA_DEVICES}"
 echo " Strategies: ${STRATEGIES[*]}"
 echo " Capacities: ${CAPACITY_FACTORS[*]}"
 echo " Tasks: ${TASKS[*]}"
+if [[ "${DEBUG}" -eq 1 ]]; then
+    echo " Debug: ON (log_samples + limit=${DEBUG_LIMIT})"
+fi
 echo "========================================================="
 echo ""
 
@@ -150,7 +175,8 @@ if [[ " ${STRATEGIES[*]} " == *" baseline "* ]] || [[ " ${STRATEGIES[*]} " == *"
             --tasks "${task}" \
             --num_fewshot "${num_fewshot}" \
             --batch_size "${BATCH_SIZE}" \
-            --output_path "${OUTPUT_PATH}/${task}.json"
+            --output_path "${OUTPUT_PATH}/${task}.json" \
+            ${DEBUG_ARGS}
     done
     echo "[BASELINE] Done!"
     echo ""
@@ -180,7 +206,8 @@ for STRATEGY in "${STRATEGIES[@]}"; do
                 --tasks "${task}" \
                 --num_fewshot "${num_fewshot}" \
                 --batch_size "${BATCH_SIZE}" \
-                --output_path "${OUTPUT_PATH}/${task}.json"
+                --output_path "${OUTPUT_PATH}/${task}.json" \
+                ${DEBUG_ARGS}
         done
         echo "[OK] STRATEGY=${STRATEGY}, CAPACITY=${CAPACITY}"
         echo ""
